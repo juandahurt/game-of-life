@@ -3,4 +3,5 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Only on Mac!
 .DS_Store
