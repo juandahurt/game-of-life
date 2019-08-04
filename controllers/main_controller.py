@@ -10,15 +10,33 @@ class MainController():
         root = Tk()
         self.main_view = MainView(root, self)
         self.cellular_automaton = None
+        self.rows = -1
+        self.cols = -1
         self.reload()
         root.mainloop()
 
     def reload(self):
+        # Get the birht rate
         birth_rate = self.main_view.scl_birth_rate.get()
-        print(birth_rate)
-        self.cellular_automaton = CellularAutomaton(birth_rate, 10, 10)
+
+        # Get ca dimensions
+        self.rows = int(self.main_view.spx_rows.get())
+        self.cols = int(self.main_view.spx_cols.get())
+
+        self.cellular_automaton = CellularAutomaton(
+            birth_rate,
+            self.rows,
+            self.cols
+        )
+
+        self.main_view.resize_cells(self.rows, self.cols)
 
     def update(self):
+        # It's called every frame
         if hasattr(self, 'main_view'):
-            self.main_view.draw_ca()
+            self.main_view.draw_ca(
+                self.cellular_automaton.cells,
+                self.rows,
+                self.cols
+            )
             self.cellular_automaton.evolve()
