@@ -16,10 +16,10 @@ class MainController():
         root.mainloop()
 
     def reload(self):
-        # Get the birht rate
+        # Get the birth rate
         birth_rate = self.main_view.scl_birth_rate.get()
 
-        # Get ca dimensions
+        # Get CA dimensions
         self.rows = int(self.main_view.spx_rows.get())
         self.cols = int(self.main_view.spx_cols.get())
 
@@ -34,9 +34,5 @@ class MainController():
     def update(self):
         # It's called every frame
         if hasattr(self, 'main_view'):
-            self.main_view.draw_ca(
-                self.cellular_automaton.cells,
-                self.rows,
-                self.cols
-            )
+            self.main_view.draw_ca(self.cellular_automaton)
             self.cellular_automaton.evolve()

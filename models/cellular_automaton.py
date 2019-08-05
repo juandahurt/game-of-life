@@ -22,38 +22,16 @@ class CellularAutomaton():
             self.cells.append(row)
 
     def set_neighbors(self):
-        # Von Neuman neighborhood
         for row in range(self.rows):
             for col in range(self.cols):
                 me = self.cells[row][col]
-
-                # Up
-                if row == 0:
-                    up = self.cells[self.rows - 1][col]
-                else:
-                    up = self.cells[row - 1][col]
-                me.add_neighbor(up)
-
-                # Right
-                if col == self.cols - 1:
-                    right = self.cells[row][0]
-                else:
-                    right = self.cells[row][col + 1]
-                me.add_neighbor(right)
-
-                # Down
-                if row == self.rows - 1:
-                    down = self.cells[0][col]
-                else:
-                    down = self.cells[row + 1][col]
-                me.add_neighbor(down)
-
-                # Left
-                if col == 0:
-                    left = self.cells[row][self.cols - 1]
-                else:
-                    left = self.cells[row][col - 1]
-                me.add_neighbor(left)
+                for i in range(-1, 2):
+                    for j in range(-1, 2):
+                        if i == 0 and j == 0:
+                            continue
+                        x = (row + i + self.rows) % self.rows
+                        y = (col + j + self.cols) % self.cols
+                        me.add_neighbor(self.cells[x][y])
 
     def evolve(self):
         new_gen = []
@@ -61,11 +39,18 @@ class CellularAutomaton():
             new_row = []
             for col in range(self.cols):
                 alive_neighbors = self.cells[row][col].alive_neighbors()
-                if alive_neighbors == 2 or alive_neighbors == 3:
+                me = self.cells[row][col]
+                if me.state == ALIVE and alive_neighbors < 2:
+                    new_row.append(Cell(DEAD))
+                elif me.state == ALIVE and (alive_neighbors == 2 or
+                alive_neighbors == 3):
+                    new_row.append(Cell(ALIVE))
+                elif me.state == DEAD and alive_neighbors > 3:
+                    new_row.append(Cell(DEAD))
+                elif me.state == DEAD and alive_neighbors == 3:
                     new_row.append(Cell(ALIVE))
                 else:
-                    new_row.append(Cell(DEAD))
+                    new_row.append(Cell(me.state))
             new_gen.append(new_row)
-        self.cells.clear()
         self.cells = new_gen
         self.set_neighbors()

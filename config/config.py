@@ -1,9 +1,9 @@
 # Canvas dimensions
-WIDTH = 500
-HEIGHT = 300
+WIDTH = 600
+HEIGHT = 500
 
 # Delay
-DELAY = 400
+DELAY = 120
 
 # States
 ALIVE = 1

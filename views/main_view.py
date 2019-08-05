@@ -19,7 +19,6 @@ class MainView():
         self.canvas.grid(
             row=0,
             column=0,
-            #rowspan=2,
             columnspan=3
         )
 
@@ -45,7 +44,7 @@ class MainView():
 
         self.spx_rows = Spinbox(
             root,
-            from_=20,
+            from_=50,
             to=100,
             state='readonly'
         )
@@ -59,7 +58,7 @@ class MainView():
 
         self.spx_cols = Spinbox(
             root,
-            from_=20,
+            from_=50,
             to=100,
             state='readonly'
         )
@@ -82,8 +81,6 @@ class MainView():
         # Position the window at the center of the screen
         root.geometry("+{}+{}".format(position_right, position_down))
 
-        #self.resize_cells()
-
         self.loop()
 
     def resize_cells(self, rows, cols):
@@ -91,13 +88,15 @@ class MainView():
         self.cell_width = WIDTH / cols
         self.cell_height = HEIGHT / rows
 
-    def draw_ca(self, cells, rows, cols):
+    def draw_ca(self, ca):
+        # Clear the canvas
         self.canvas.delete('all')
-        for row in range(rows):
-            for col in range(cols):
+
+        for row in range(ca.rows):
+            for col in range(ca.cols):
                 x = col * self.cell_width
                 y = row * self.cell_height
-                state = cells[row][col].state
+                state = ca.cells[row][col].state
                 color = ALIVE_COLOR if state == ALIVE else DEAD_COLOR
                 self.canvas.create_rectangle(
                     x,
@@ -105,10 +104,11 @@ class MainView():
                     x + self.cell_width,
                     y + self.cell_height,
                     fill=color,
-                    width=0
+                    width=0.1,
+                    outline=DEAD_COLOR
                 )
 
     def loop(self):
-        # main loop
+        # The main loop
         self.controller.update()
         self.root.after(DELAY, self.loop)
