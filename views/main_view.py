@@ -92,6 +92,7 @@ class MainView():
         self.cell_height = HEIGHT / rows
 
     def draw_ca(self, cells, rows, cols):
+        self.canvas.delete('all')
         for row in range(rows):
             for col in range(cols):
                 x = col * self.cell_width
