@@ -96,14 +96,13 @@ class MainView():
             for col in range(ca.cols):
                 x = col * self.cell_width
                 y = row * self.cell_height
-                state = ca.cells[row][col].state
-                color = ALIVE_COLOR if state == ALIVE else DEAD_COLOR
+                cell = ca.cells[row][col]
                 self.canvas.create_rectangle(
                     x,
                     y,
                     x + self.cell_width,
                     y + self.cell_height,
-                    fill=color,
+                    fill=cell.color,
                     width=0.1,
                     outline=DEAD_COLOR
                 )

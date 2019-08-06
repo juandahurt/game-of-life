@@ -1,4 +1,4 @@
-from config.config import DEAD, ALIVE
+from config.config import DEAD, ALIVE, BORN_COLOR, DYING_COLOR
 from .cell import Cell
 from random import random
 
@@ -41,14 +41,18 @@ class CellularAutomaton():
                 alive_neighbors = self.cells[row][col].alive_neighbors()
                 me = self.cells[row][col]
                 if me.state == ALIVE and alive_neighbors < 2:
-                    new_row.append(Cell(DEAD))
+                    cell = Cell(DEAD)
+                    cell.color = DYING_COLOR
+                    new_row.append(cell)
                 elif me.state == ALIVE and (alive_neighbors == 2 or
                 alive_neighbors == 3):
                     new_row.append(Cell(ALIVE))
                 elif me.state == DEAD and alive_neighbors > 3:
                     new_row.append(Cell(DEAD))
                 elif me.state == DEAD and alive_neighbors == 3:
-                    new_row.append(Cell(ALIVE))
+                    cell = Cell(ALIVE)
+                    cell.color = BORN_COLOR
+                    new_row.append(cell)
                 else:
                     new_row.append(Cell(me.state))
             new_gen.append(new_row)

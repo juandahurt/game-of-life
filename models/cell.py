@@ -1,9 +1,13 @@
-from config.config import DEAD, ALIVE
+from config.config import DEAD, ALIVE, DEAD_COLOR, ALIVE_COLOR
 
 
 class Cell():
     def __init__(self, state):
         self.state = state
+        if self.state == ALIVE:
+            self.color = ALIVE_COLOR
+        elif self.state == DEAD:
+            self.color = DEAD_COLOR
         self.neighbors = []
 
     def add_neighbor(self, neighbor):
