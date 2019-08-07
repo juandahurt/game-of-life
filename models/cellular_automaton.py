@@ -27,8 +27,6 @@ class CellularAutomaton():
                 me = self.cells[row][col]
                 for i in range(-1, 2):
                     for j in range(-1, 2):
-                        if i == 0 and j == 0:
-                            continue
                         x = (row + i + self.rows) % self.rows
                         y = (col + j + self.cols) % self.cols
                         me.add_neighbor(self.cells[x][y])
@@ -40,14 +38,14 @@ class CellularAutomaton():
             for col in range(self.cols):
                 alive_neighbors = self.cells[row][col].alive_neighbors()
                 me = self.cells[row][col]
-                if me.state == ALIVE and alive_neighbors < 2:
+                if me.state == ALIVE and alive_neighbors < 3:
                     cell = Cell(DEAD)
                     cell.color = DYING_COLOR
                     new_row.append(cell)
-                elif me.state == ALIVE and (alive_neighbors == 2 or
-                alive_neighbors == 3):
+                elif me.state == ALIVE and (alive_neighbors == 3 or
+                alive_neighbors == 4):
                     new_row.append(Cell(ALIVE))
-                elif me.state == DEAD and alive_neighbors > 3:
+                elif me.state == ALIVE and alive_neighbors > 3:
                     new_row.append(Cell(DEAD))
                 elif me.state == DEAD and alive_neighbors == 3:
                     cell = Cell(ALIVE)
