@@ -3,7 +3,7 @@ WIDTH = 600
 HEIGHT = 500
 
 # Delay
-DELAY = 300
+DELAY = 200
 
 # States
 ALIVE = 1
